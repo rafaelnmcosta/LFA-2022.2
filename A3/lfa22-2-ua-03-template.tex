@@ -1,0 +1,51 @@
+\documentclass[12pt]{article}
+
+% ----------------------------------------- Dados do discente
+% Insira os seus dados e do exercício escolhido:
+\def\discente{Rafael Nunes Moreira Costa}
+\def\matricula{202107855}
+\def\ua{03}
+\def\myling{{07}} % Informe o número da linguagem selecionada.
+
+% ------------------------------------------ Babel & Geometry
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=0.5cm,bottom=1.5cm,left=1.5cm,right=1.5cm,nohead,nofoot]{geometry}
+%
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{tcolorbox}
+
+\newcommand{\concatL}{\ensuremath{{\scriptstyle\circ}}}%
+
+\begin{document}
+% ------------------------------------------------- Cabeçalho
+ \begin{tcolorbox}[rounded corners, colback=blue!3, colframe=blue!40!black]
+  \footnotesize\textbf{Universidade Federal de Goiás -- UFG}\hfill \textsc{Linguagens Formais e Autômatos -- 2022/2}\\
+  \footnotesize\textbf{Instituto de Informática -- INF\hfill Prof. Humberto J. Longo} -- \scriptsize\texttt{longo@inf.ufg.br}
+ \end{tcolorbox}\bigskip
+%
+% ------------------------------------------------- Atividade
+\begin{tcolorbox}[rounded corners, colback=blue!2, colframe=blue!40!black, title=\textbf{Atividade AA-\ua}]
+   Nesta tarefa deve-se propôr uma definição por \textbf{Expressões Regulares} para a linguagem selecionada. (Cada aluno deve consultar na descrição da atividade AA-\ua, na disciplina INF0333A da plataforma Turing, qual é a linguagem associada ao seu número de matrícula. A descrição da linguagem está disponível no arquivo ``Lista de linguagens regulares'' da Seção ``Coletânea de exercícios''.)
+\end{tcolorbox}\bigskip
+%
+% ------------------------------------ Resolução do exercício
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title=\textbf{\matricula\ -- \discente}]
+ \begin{itemize}[leftmargin=*]
+% 
+  \item $\mathcal{L}_\myling = \{w\in\{0,1\}^*\mid$ todo $0$ em $w$ é adjacente à esquerda e à direita a um $1\}$.
+%
+  \item Definição, por expressões regulares, das palavras pertencentes à linguagem $\mathcal{L}_\myling$:
+   $$\mathcal{ER}(\mathcal{L}_\myling) =
+% * * * * * * * * * * * * * * * * * * * * * * 
+    ((1)^*0(1)^*)^*
+% * * * * * * * * * * * * * * * * * * * * * * 
+   .$$
+ \end{itemize}
+\end{tcolorbox}
+%-----------------------------------------------
+\end{document}
+%

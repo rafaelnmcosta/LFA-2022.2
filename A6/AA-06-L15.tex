@@ -1,0 +1,143 @@
+\documentclass[12pt]{article}
+
+% ----------------------------------------- Dados do discente
+% Insira os seus dados e do exercício escolhido:
+\def\discente{Fulana(o) de tal}
+\def\matricula{20010101}
+\def\ua{06}
+\def\myling{{99}} % Informe o número da linguagem selecionada.
+
+% ------------------------------------------ Babel & Geometry
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=0.5cm,bottom=1.5cm,left=1.5cm,right=1.5cm,nohead,nofoot]{geometry}
+%
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{tcolorbox}
+
+\usepackage{tikz}
+\usetikzlibrary{automata,shapes,arrows,positioning}
+\tikzset{
+ node distance=2.5cm,
+ initial text={$M_{\mathcal{L}_\myling}$},
+ double distance=1pt,
+ every state/.style={semithick,fill=blue!20!white,minimum size=20pt,inner sep=0pt},
+ every edge/.style={draw,->,>=stealth,auto,semithick,font=\ttfamily\small},
+ accept/.style={accepting,fill=green!20!white},
+ reject/.style={fill=red!20!white},
+ slopea/.style={sloped,anchor=center,above},
+ slopeb/.style={sloped,anchor=center,below}
+}
+
+%\newcommand{\concatL}{\ensuremath{{\scriptstyle\circ}}}%
+
+\begin{document}
+% ------------------------------------------------- Cabeçalho
+ \begin{tcolorbox}[rounded corners, colback=blue!3, colframe=blue!40!black]
+  \footnotesize\textbf{Universidade Federal de Goiás -- UFG}\hfill \textsc{Linguagens Formais e Autômatos -- 2022/2}\\
+  \footnotesize\textbf{Instituto de Informática -- INF\hfill Prof. Humberto J. Longo} -- \scriptsize\texttt{longo@inf.ufg.br}
+ \end{tcolorbox}\bigskip
+%
+% ------------------------------------------------- Atividade
+\begin{tcolorbox}[rounded corners, colback=blue!2, colframe=blue!40!black, title=\textbf{Atividade AA-\ua\ -- \discente\ (\matricula)}]
+ Nesta tarefa deve-se ($i$) propor um autômato finito não-determinístico (NFA ou NFA-$\varepsilon$, com pelo menos uma transição não determinística ou uma transição $\varepsilon$) que reconheça as cadeias da linguagem selecionada (especificar a tupla que define o NFA proposto e desenhar o correspondente diagrama de estados); ($ii$) converter o NFA/NFA-$\varepsilon$ proposto para um autômato finito determinístico (apresentar os principais elementos dessa conversão). \textbf{Atenção:} NFA's criados a partir do simples acréscimo de transições $\delta(s_i,\varepsilon)=s_i$ ($\varepsilon$-laços) a um DFA não serão considerados corretos, por não permitirem uma avaliação razoável do aprendizado dos conceitos abordados nesta atividade avaliativa. (Cada aluno(a) deve consultar na descrição da atividade AA-\ua, na disciplina INF0333A da plataforma Turing, qual é a linguagem associada ao seu número de matrícula. A descrição da linguagem está disponível no arquivo ``Lista de linguagens regulares'' da Seção ``Coletânea de exercícios''.)
+\end{tcolorbox}\bigskip
+
+
+%
+% ------------------------------------ Resolução do exercício
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={$\mathcal{L}_{\myling} = 0^*\cup 0(10)^*$}]
+ \begin{itemize}[leftmargin=*]
+%- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   
+  \item Autômato finito não determinístico (NFA) que reconhece as cadeias da linguagem $\mathcal{L}_\myling$:\\
+    $N_\myling=\langle\Sigma=\{0,1\},S=\{s_0,s_1,s_2,s_3\},s_0,\delta,F=\{s_2,s_3\}\rangle$, com a função $\delta$ definida por:\\
+    $$\begin{array}{|c|ccc|}
+     \hline
+     \delta & 0   & 1   & \varepsilon\\
+     \hline
+        s_0 &     &     & \{s_1,s_2\}\\
+        s_1 & s_3 &     & \\
+        s_2 & s_2 &     & \\
+        s_3 &     & s_1 & \\
+     \hline
+    \end{array}$$
+  \item Diagrama de estados do NFA $N_{\myling}$:
+   \begin{center}
+   \begin{tikzpicture}[
+    initial text={$N_\myling$},
+    accept/.style={accepting,fill=green!20!white},
+%    transform shape,
+%    scale=1.2
+   ]
+    \node[state,initial]                               (s0) {$s_0$};
+    \node[state,above right of=s0,yshift=-0.5cm]       (s1) {$s_1$};
+    \node[state,below right of=s0,yshift=0.5cm,accept] (s2) {$s_2$};
+    \node[state,right of=s1,accept]                    (s3) {$s_3$};
+
+    \draw (s0) edge [out=90,in=180]             node {$\varepsilon$} (s1)
+               edge [out=270,in=180,below left] node {$\varepsilon$} (s2)
+          (s1) edge [bend left=20]              node {$0$}           (s3)
+          (s2) edge [loop above]                node {$0$}           (s2)
+          (s3) edge [bend left=20]              node {$1$}           (s1);
+  \end{tikzpicture}
+  \end{center}
+ \end{itemize}
+\end{tcolorbox}\bigskip
+%=========================================================================
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={Elementos da transformação NFA/NFA-$\varepsilon\rightarrow$ DFA}]
+ \begin{itemize}[leftmargin=*]
+ \item Fecho-$\varepsilon$ do estado $s_0$ do NFA $N_\myling$: $$\mathcal{F}_\varepsilon(s_0) = \{s_0,s_1,s_2\}.$$
+%- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+ \item Tabela da função $\tau$ de transições do NFA $N_\myling$:
+ $$
+  \begin{array}{c|cc}
+   \tau & 0           & 1\\
+   \hline
+   s_0  & \{s_2,s_3\} & \varnothing\\
+   s_1  & \{s_3\}     & \varnothing\\
+   s_2  & \{s_2\}     & \varnothing\\
+   s_3  & \varnothing & \{s_1\}\\
+  \end{array}
+ $$
+ \end{itemize}
+\end{tcolorbox}\bigskip
+%=========================================================================
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={Autômato finito determinístico (DFA) que reconhece as cadeias da linguagem $\mathcal{L}_\myling$}]
+%- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  \begin{center}
+   \begin{tikzpicture}[
+    initial text={$M_{\myling}$},
+    accept/.style={accepting,fill=green!20!white},
+    reject/.style={fill=red!20!white},
+%    node distance=2cm,
+%    transform shape,
+%    scale=1.2
+   ]
+    \node[state,initial,accept,ellipse]             (s012) {$\{s_0,s_1,s_2\}$};
+    \node[state,right=1.5cm of s012,accept,ellipse] (s23)  {$\{s_2,s_3\}$};
+    \node[state,right=1.5cm of s23,ellipse]         (s1)   {$\{s_1\}$};
+    \node[state,right=1.5cm of s1,accept,ellipse]   (s3)   {$\{s_3\}$};
+    \node[state,below=1.3cm of s23,accept,ellipse]  (s2)   {$\{s_2\}$};
+    \node[state,below=1.3cm of s2,reject]           (sr)   {$\varnothing$};
+
+    \draw (s012) edge                            node {$0$}   (s23)
+                 edge [bend right=45,below left] node {$1$}   (sr)
+          (s23)  edge                            node {$0$}   (s2)
+                 edge                            node {$1$}   (s1)
+          (s1)   edge [bend left=20]             node {$0$}   (s3)
+                 edge [bend left=20]             node {$1$}   (sr)
+          (s3)   edge [bend left=40]             node {$0$}   (sr)
+                 edge [bend left=20]             node {$1$}   (s1)
+          (s2)   edge [loop left]                node {$0$}   (s2)
+                 edge                            node {$1$}   (sr)
+          (sr)   edge [loop below]               node {$0,1$} (sr);
+  \end{tikzpicture}
+  \end{center}
+\end{tcolorbox}
+%
+%-----------------------------------------------
+\end{document}
+%

@@ -1,0 +1,64 @@
+\documentclass[12pt]{article}
+
+% ----------------------------------------- Dados do discente
+% Insira os seus dados e do exercício escolhido:
+\def\discente{Rafael Nunes Moreira Costa}
+\def\matricula{202107855}
+\def\ua{11}
+\def\myling{{32}} % Informe o número da linguagem selecionada.
+
+% ------------------------------------------ Babel & Geometry
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=0.5cm,bottom=1.5cm,left=1.5cm,right=1.5cm,nohead,nofoot]{geometry}
+%
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{tcolorbox}
+
+\begin{document}
+% ------------------------------------------------- Cabeçalho
+ \begin{tcolorbox}[rounded corners, colback=blue!3, colframe=blue!40!black]
+  \footnotesize\textbf{Universidade Federal de Goiás -- UFG}\hfill \textsc{Linguagens Formais e Autômatos -- 2022/2}\\
+  \footnotesize\textbf{Instituto de Informática -- INF\hfill Prof. Humberto J. Longo} -- \scriptsize\texttt{longo@inf.ufg.br}
+ \end{tcolorbox}\bigskip
+%
+% ------------------------------------------------- Atividade
+\begin{tcolorbox}[rounded corners, colback=blue!2, colframe=blue!40!black, title=\textbf{Atividade AA-\ua}]
+  Nesta tarefa deve-se propor uma gramática livre de contexto $G$ que gere a linguagem $\mathcal{L}_n$ selecionada, ou seja, $\mathcal{L}(G)=\mathcal{L}_n$. (Cada aluna(o) deve consultar na descrição da atividade AA--\ua, na disciplina INF0333A da plataforma Turing, qual é a linguagem associada ao seu número de matrícula. A descrição da linguagem está disponível no arquivo ``Lista de linguagens livres de contexto'' da Seção ``Coletânea de exercícios''.)
+\end{tcolorbox}\bigskip
+
+%
+% -------------------- Descreva aqui a linguagem selecionada.
+%=========================================================================
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={\discente\ (\matricula)}]
+ \begin{itemize}[leftmargin=*]
+%  \item $\mathcal{L}_{\myling} = \{w\in\{0,1\}^*\mid w = w^R$ e $|w|=2n+1,\ n\in\mathbb{N}\}$.
+  \item $\mathcal{L}_{\myling} = \{w\in\{0,1\}^*\mid w = (01)^n(01^m)^n,\ m,n,\in\mathbb{N}^+\}$.
+ \end{itemize}
+\end{tcolorbox}\bigskip
+
+% -------------------- Escreva aqui a resolução do exercício.
+%=========================================================================
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={Gramática que gera as cadeias da linguagem $\mathcal{L}_{\myling}$}]
+
+Note-se que $w = (01)^n(01^m)^n,\ m,n,\in\mathbb{N}^+$. Assim, a cadeia mínima é $w = 01011$, há uma dependência entre a quantidade de 01's da primeira parte da cadeia com a da segunda, sendo que na segunda podemos ter mais 1's no final. Portanto, $G_{32}$ é:
+
+ 
+ \begin{align*}
+  G_{\myling} = & (V,\Sigma,P,S),\shortintertext{onde:}
+  V           = & \{S,A\},\\
+  \Sigma      = & \{0,1\},\\
+  P           = &
+   \left\{\begin{array}{l}
+    S \to A,\\
+    A \to 01AB \mid 01B,\\
+    B \to 01C,\\
+    C \to 1C \mid 1
+   \end{array}\right\}.
+ \end{align*}
+\end{tcolorbox}
+%=========================================================================
+\end{document}

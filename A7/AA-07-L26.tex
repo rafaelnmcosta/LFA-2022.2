@@ -1,0 +1,138 @@
+\documentclass[12pt]{article}
+
+% ----------------------------------------- Dados do discente
+% Insira os seus dados e do exercício escolhido:
+\def\discente{Rafael Nunes Moreira Costa}
+\def\matricula{202107855}
+\def\ua{07}
+\def\myling{{26}} % Informe o número da linguagem selecionada.
+
+% ------------------------------------------ Babel & Geometry
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=0.5cm,bottom=1.5cm,left=1.5cm,right=1.5cm,nohead,nofoot]{geometry}
+%
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{tcolorbox}
+
+\usepackage{tikz}
+\usetikzlibrary{automata,shapes,arrows,positioning}
+\tikzset{
+ node distance=2.5cm,
+ initial text={$M_{\mathcal{L}_\myling}$},
+ double distance=1pt,
+ every state/.style={semithick,fill=blue!20!white,minimum size=20pt,inner sep=0pt},
+ every edge/.style={draw,->,>=stealth,auto,semithick,font=\ttfamily\small},
+ accept/.style={accepting,fill=green!20!white},
+ reject/.style={fill=red!20!white},
+ slopea/.style={sloped,anchor=center,above},
+ slopeb/.style={sloped,anchor=center,below}
+}
+
+\begin{document}
+% ------------------------------------------------- Cabeçalho
+ \begin{tcolorbox}[rounded corners, colback=blue!3, colframe=blue!40!black]
+  \footnotesize\textbf{Universidade Federal de Goiás -- UFG}\hfill \textsc{Linguagens Formais e Autômatos -- 2022/2}\\
+  \footnotesize\textbf{Instituto de Informática -- INF\hfill Prof. Humberto J. Longo} -- \scriptsize\texttt{longo@inf.ufg.br}
+ \end{tcolorbox}\bigskip
+%
+% ------------------------------------------------- Atividade
+\begin{tcolorbox}[rounded corners, colback=blue!2, colframe=blue!40!black, title=\textbf{Atividade AA-\ua}]
+ Nesta tarefa deve-se ($i$) propôr um autômato finito determinístico \textbf{mínimo} $D$ que reconheça as cadeias da linguagem selecionada e, a partir de $D$, construir uma gramática que gere as cadeias reconhecidas por $D$; ($ii$)  propôr um autômato finito não-determinístico $N$ que reconheça as cadeias da linguagem selecionada e, a partir de $N$, construir uma gramática que gere as cadeias reconhecidas por $N$. O autômato $N$ pode ser um NFA ou NFA-$\varepsilon$, com pelo menos uma transição não determinística ou uma transição $\varepsilon$. A gramática obtida a partir do DFA $D$ deve ser regular e a gramática resultante do NFA $N$ não necessariamente será regular! \textbf{Atenção:} NFA's criados a partir do simples acréscimo de transições $\delta(s_i,\varepsilon)=s_i$ ($\varepsilon$-laços) a um DFA não serão considerados corretos, por não permitirem uma avaliação razoável do aprendizado dos conceitos abordados nesta atividade avaliativa. (Cada aluno(a) deve consultar na descrição da atividade AA--\aa, na disciplina INF0333A da plataforma Turing, qual é a linguagem associada ao seu número de matrícula. A descrição da linguagem está disponível no arquivo ``lista de linguagens regulares'' da Seção ``Coletânea de exercícios''.)
+\end{tcolorbox}\bigskip
+
+%
+% ------------------------------------ Resolução do exercício
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={\discente\ (\matricula)}]
+ \begin{itemize}[leftmargin=*]
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  \item $\mathcal{L}_\myling = \{w \mid |w|_0 + |w|_1 = 2k+1, k \in \mathbb{N}$ \textbf{e w não contém 10}. $\}$
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  \item $ER(\mathcal{L}_\myling) = (0(00^\cup11^)\cup(1(11)^*$.
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ \end{itemize}
+\end{tcolorbox}\bigskip
+%=========================================================================
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={DFA mínimo que reconhece as cadeias de $\mathcal{L}_\myling$}]
+ \centering
+ \begin{tikzpicture}[
+%    transform shape,
+%    scale=0.8
+ ]
+  \node[state,initial]            (s0) {$S$};
+  \node[state,below right of=s0, accept]        (s1) {$A$};
+  \node[state,right of=s1]        (s2) {$B$};
+  \node[state,above right of=s0,accept] (s3) {$C$};
+  \node[state,right of=s3] (s4) {$D$};
+%
+  \draw (s0) edge               node {0}   (s1)
+             edge               node {1}   (s3)
+        (s1) edge[bend left=25] node {0}   (s2)
+             edge[bend left=13] node {1}   (s4)
+        (s2) edge[bend left=25] node {0}   (s1)
+             edge[bend right=13] node {1}   (s3)
+        (s3) edge[bend left=25] node {1}   (s4)
+        (s4) edge[bend left=25] node {1}   (s3);
+ \end{tikzpicture}
+\end{tcolorbox}\bigskip
+%=========================================================================
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={Gramática $G_1$ que gera as cadeias de $\mathcal{L}_\myling$}]
+ \begin{align*}
+ G_1 &= (V,\Sigma,P,S)=(\{A,B,C,D,S\},\{0,1\},P,S),\text{ com:}\\
+   P &=
+   \left\{\begin{array}{l}
+    S \to 0A \mid 1S,\\
+    A \to 0A \mid 1B,\\
+    B \to 0C \mid 1S,\\
+    C \to 0C \mid 1D \mid \varepsilon,\\
+    D \to  1C \mid \varepsilon
+   \end{array}\right\}.
+ \end{align*}
+\end{tcolorbox}\bigskip
+%=========================================================================
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={NFA que reconhece as cadeias de $\mathcal{L}_\myling$}]
+ \centering
+ \begin{tikzpicture}
+  [
+   initial text={$N_\myling$},
+   accept/.style={accepting,fill=green!20!white},
+   reject/.style={fill=red!20!white},
+%    node distance=2.cm,
+%    transform shape,
+%    scale=1.2
+  ]
+  \node[state,initial]            (s) {$S$};
+  \node[state,right of=s, accept]        (a) {$A$};
+  \node[state,right of=a]        (b) {$B$};
+  \node[state,below of=s,accept] (c) {$C$};
+  \node[state,right of=c] (d) {$D$};
+  %
+    \draw (s) edge                       node {0,1}             (a)
+              edge                       node {0}   (c)
+          (a) edge          node {1}               (b)
+          (b) edge [bend left=25] node {1} (a)
+          (c) edge [bend left=25] node {0} (s)
+              edge node {1} (d)
+          (d) edge node {1} (a)
+   \end{tikzpicture}
+\end{tcolorbox}\bigskip
+%=========================================================================
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={Gramática $G_2$ que gera as cadeias da linguagem $\mathcal{L}_{\myling}$}]
+ \begin{align*}
+ G_2 &=(V,\Sigma,P,S)=(\{A,B,C,D\},\{0,1\},P,S), \text{ com}\\
+   P &=
+   \left\{\begin{array}{l}
+    S \to 0A \mid 0C \mid 1A,\\
+    A \to 1B,\\
+    B \to 1A,\\
+    C \to 0S \mid 1D,\\
+    D \to 1A\\
+   \end{array}\right\}.
+ \end{align*}
+\end{tcolorbox}\bigskip
+%%=========================================================================
+\end{document}
+%

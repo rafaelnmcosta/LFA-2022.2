@@ -1,0 +1,94 @@
+\documentclass[12pt]{article}
+
+% ----------------------------------------- Dados do discente
+% Insira os seus dados e do exercício escolhido:
+\def\discente{Rafael}
+\def\matricula{202107855}
+\def\ua{04}
+\def\myling{{29}} % Informe o número da linguagem selecionada.
+
+% ------------------------------------------ Babel & Geometry
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=0.5cm,bottom=1.5cm,left=1.5cm,right=1.5cm,nohead,nofoot]{geometry}
+%
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{tcolorbox}
+
+\usepackage{tikz}
+\usetikzlibrary{automata,arrows,positioning}
+\tikzset{
+ node distance=2.5cm,
+ initial text={$M_\myling$},
+ double distance=1pt,
+ every state/.style={semithick,fill=blue!20!white,minimum size=20pt,inner sep=0pt},
+ every edge/.style={draw,->,>=stealth,auto,semithick,font=\ttfamily\small}
+}
+
+%\newcommand{\concatL}{\ensuremath{{\scriptstyle\circ}}}%
+
+\begin{document}
+% ------------------------------------------------- Cabeçalho
+ \begin{tcolorbox}[rounded corners, colback=blue!3, colframe=blue!40!black]
+  \footnotesize\textbf{Universidade Federal de Goiás -- UFG}\hfill \textsc{Linguagens Formais e Autômatos -- 2022/2}\\
+  \footnotesize\textbf{Instituto de Informática -- INF\hfill Prof. Humberto J. Longo} -- \scriptsize\texttt{longo@inf.ufg.br}
+ \end{tcolorbox}\bigskip
+%
+% ------------------------------------------------- Atividade
+\begin{tcolorbox}[rounded corners, colback=blue!2, colframe=blue!40!black, title=\textbf{Atividade AA-\ua}]
+   Nesta tarefa deve-se propôr um autômato finito determinístico (DFA) que reconheça as cadeias da linguagem selecionada. Especifique a tupla que define o DFA e desenhe o correspondente diagrama de estados. (Cada aluna(o) deve consultar na descrição da atividade AA-\ua, na disciplina INF0333A da plataforma Turing, qual é a linguagem associada ao seu número de matrícula. A descrição da linguagem está disponível no arquivo ``Lista de linguagens regulares'' da Seção ``Coletânea de exercícios''.)
+\end{tcolorbox}\bigskip
+%
+% ------------------------------------ Resolução do exercício
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title=\textbf{\matricula\ -- \discente}]
+ \begin{itemize}[leftmargin=*]
+% 
+  \item $\mathcal{L}_\myling = \{w\mid w$ contém uma, duas, ou três ocorrências do símbolo $0$$\}$.
+%
+  \item Autômato finito determinístico que reconhece as cadeias da linguagem  $\mathcal{L}_\myling$:\\
+    $M_\myling=\langle\Sigma=\{0,1\},S=\{s_0,s_1,s_2,s_3,s_4\},s_0,\delta,F=\{s_2,s_3\}\rangle$, com a função $\delta$ definida por:\\
+    $$\begin{array}{|c|cc|}
+     \hline
+     \delta & 0   & 1\\
+     \hline
+        s_0 & s_1 & s_0\\
+        s_1 & s_2 & s_1\\
+        s_2 & s_3 & s_2\\
+        s_3 & s_4 & s_3\\
+        s_4 & s_4 & s_4\\
+     \hline
+    \end{array}$$
+  \begin{center}
+   \begin{tikzpicture}[
+    %node distance=2.cm,
+     accept/.style={accepting,fill=green!20!white},
+     reject/.style={fill=red!20!white},
+%     transform shape,
+%     scale=1.2
+    ]
+     \node[state,initial]            (s0) {$s_0$};
+     \node[state,right of=s0,accept] (s1) {$s_1$};
+     \node[state,right of=s1,accept] (s2) {$s_2$};
+     \node[state,right of=s2,accept] (s3) {$s_3$};
+     \node[state,right of=s3,reject] (s4) {$s_4$};
+   %
+     \draw (s0) edge               node {0}   (s1)
+                edge[loop below]   node {1}   (s0)
+           (s1) edge               node {0}   (s2)
+                edge[loop below]   node {1}   (s1)
+           (s2) edge               node {0}   (s3)
+                edge[loop below]   node {1}   (s2)
+           (s3) edge               node {0}   (s4)
+                edge[loop below]   node {1}   (s3)
+           (s4) edge[loop below]   node {0,1} (s4)
+   \end{tikzpicture}
+  \end{center}
+ \end{itemize}
+\end{tcolorbox}
+%
+%-----------------------------------------------
+\end{document}
+%

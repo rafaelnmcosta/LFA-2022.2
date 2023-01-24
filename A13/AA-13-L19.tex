@@ -1,0 +1,144 @@
+\documentclass[12pt]{article}
+
+% ----------------------------------------- Dados do discente
+% Insira os seus dados e do exercício escolhido:
+\def\discente{Rafael Nunes Moreira Costa}
+\def\matricula{202107855}
+\def\ua{13}
+\def\myling{{19}} % Informe o número da linguagem selecionada.
+
+% ------------------------------------------ Babel & Geometry
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=1.0cm,bottom=2.0cm,left=1.5cm,right=1.5cm]{geometry}
+%
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage[breakable]{tcolorbox}
+%
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+%
+
+\newcommand{\ve}{\ensuremath{\varepsilon}}
+%\newcommand{\deriv}[1]{\stackrel{\scriptscriptstyle #1}{\Longrightarrow}}
+%\newcommand{\derivG}[2]{\mathop{\Longrightarrow}\limits_{\scriptscriptstyle #2}^{\scriptscriptstyle #1}}
+
+\begin{document}
+% ------------------------------------------------- Cabeçalho
+ \begin{tcolorbox}[rounded corners, colback=blue!3, colframe=blue!40!black]
+  \footnotesize\textbf{Universidade Federal de Goiás -- UFG}\hfill \textsc{Linguagens Formais e Autômatos -- 2022/2}\\
+  \footnotesize\textbf{Instituto de Informática -- INF\hfill Prof. Humberto J. Longo} -- \scriptsize\texttt{longo@inf.ufg.br}
+ \end{tcolorbox}\bigskip
+%
+% ------------------------------------------------- Atividade
+\begin{tcolorbox}[rounded corners, colback=blue!2, colframe=blue!40!black, title=\textbf{Atividade AA-\ua}]
+  Nesta tarefa deve-se propor uma gramática livre de contexto $G$ que gere a linguagem $\mathcal{L}_n$ selecionada e verificar se $G$ é ambígua. ($i$) Em caso afirmativo, mostre duas derivações à esquerda em $G$ para uma mesma cadeia e proponha uma gramática equivalente $G^\prime$ que não seja ambígua. ($ii$) Caso $G$ não seja ambígua, proponha uma gramática $G^\prime$ equivalente que seja ambígua e mostre duas derivações à esquerda em $G^\prime$ para uma mesma cadeia. (Cada aluno(a) deve consultar na descrição da atividade AA--\ua, na disciplina INF0333A da plataforma Turing, qual é a linguagem associada ao seu número de matrícula. A descrição da linguagem está disponível no arquivo ``Lista de linguagens livres de contexto'' da Seção ``Coletânea de exercícios''.)
+\end{tcolorbox}\bigskip
+
+%
+% ------------------------------------ Resolução do exercício
+%=========================================================================
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={\discente\ (\matricula)}]
+\begin{itemize}
+%- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  \item $\mathcal{L}_{\myling} =  \{w = 0^m1^m0^n \mid n,m \in \mathbf{N}\}$.
+%- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  \item Gramática $G_{\myling}$ que gera as cadeias da linguagem $\mathcal{L}_{\myling}$:\\ $G_{\myling}=(\{S,A\},\{0,1\},P,S)$, com
+  $
+   P =
+   \left\{\begin{array}{l}
+    S\to S0\mid A,           \\
+    A\to 0A1\mid \varepsilon \\
+   \end{array}\right\}.
+  $
+%- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+ \end{itemize}
+\end{tcolorbox}\bigskip
+
+%=========================================================================
+\begin{tcolorbox}[breakable,rounded corners, colback=yellow!5, colframe=red!40!black, title={$G_{\myling}$ não é ambígua.}]
+ \begin{itemize}
+  %- - - - - - - - - - - - - - - -
+  \item Não há ambiguidade pois a regra de derivação $S\to S0$ faz com que todos os '0' finais da cadeia precisem ser gerados antes da regra $S \to A$, portanto realizar diferentes derivações dessa etapa vão gerar cadeias diferentes. Além disso, em seguida a regra recursiva $A \to 0A1$ também não permite ambiguidade pois a partir desse momento a outra única derivação possível é $A \to \ve$.
+  %- - - - - - - - - - - - - - - -
+  \item A introdução de uma regra $S\to B$, consequentemente da variável $B$ com as regras $B\to 0B\mid C$ e da variável $C$ com as regras $C\to C1\mid A$ podem permitir uma ambiguidade através da possibilidade de acrescentar os '0' e '1' do início da linguagem tanto através das variáveis $B$ e $C$ com uma transição para $A$ e depois para $\varepsilon$, quanto através da própria variável $A$ (como é feito na grámatica original). Assim, a gramática $G^\prime_{\myling}$ é ambígua e capaz de gerar gera as cadeias da linguagem $\mathcal{L}_{\myling}$:  $G^\prime_{\myling}=(\{S,A,B,C\},\{0,1\},P,S)$, com
+    $$
+     P =
+        \left\{\begin{array}{l}
+        S\to S0\mid A\mid B,     \\
+        A\to 0A1\mid \varepsilon,\\
+        B\to 0B\mid C,           \\
+        C\to C1\mid A
+        \end{array}\right\}.
+    $$
+ \end{itemize}
+\end{tcolorbox}
+%=========================================================================
+\begin{tcolorbox}[breakable,rounded corners, colback=yellow!5, colframe=red!40!black, title={$G^\prime_{\myling}$ é ambígua.}]
+ \begin{itemize}
+  %- - - - - - - - - - - - - - - -
+  \item Derivações à esquerda distintas para a cadeia $w=00110$:
+    \begin{align*}
+   S &\Rightarrow S0 \Rightarrow B0 \Rightarrow 0B0 \Rightarrow 0C0 \Rightarrow 0C10 \Rightarrow 0A10 \Rightarrow 00A110 \Rightarrow 00\ve110 \equiv 00110\shortintertext{e}
+   S &\Rightarrow S0 \Rightarrow A0 \Rightarrow 0A10 \Rightarrow 00A110 \Rightarrow  00\ve110 \equiv 00110.
+  \end{align*}
+  %- - - - - - - - - - - - - - - -
+  \item Árvores de derivações da cadeia $w=00110$:
+  \begin{center}
+   \begin{tikzpicture}[
+    ->,>=stealth',
+    level distance=1.1cm,
+    level 1/.style={sibling distance=1.2cm},
+    level 2/.style={sibling distance=1.8cm},
+    level 3/.style={sibling distance=0.8cm},
+    transform shape,
+    scale=.8
+   ]
+    \node (t1) {$S$}
+        child { node {$S$}
+            child { node {$B$}
+                child { node {$0$}}
+                child { node {$B$}
+                    child { node {$C$}
+                        child { node {$C$}
+                            child { node {$A$}
+                                child { node {$0$}}
+                                child { node {$A$}
+                                    child { node {$\ve$}}
+                                }
+                                child { node {$1$}}
+                            }
+                        }
+                        child { node {$1$}}
+                    }
+                }
+            }
+        }
+        child { node {$0$}};
+%      
+    \node[xshift=6cm] (t2) {$S$}
+      child { node {$S$}
+            child { node {$A$}
+                child { node {$0$}}
+                child { node {$A$}
+                    child { node {$0$}}
+                    child { node {$A$}
+                        child { node {$\ve$}}
+                    }
+                    child { node {$1$}}
+                }
+                child { node {$1$}}
+            }
+        }
+        child { node {$0$}};
+   \end{tikzpicture}
+  \end{center}
+  %- - - - - - - - - - - - - - - -
+ \end{itemize}
+\end{tcolorbox}
+%=========================================================================
+\end{document}
+%

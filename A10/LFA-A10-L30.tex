@@ -1,0 +1,59 @@
+\documentclass[12pt]{article}
+
+% ----------------------------------------- Dados do discente
+% Insira os seus dados e do exercício escolhido:
+\def\discente{Rafael Nunes Moreira Costa}
+\def\matricula{202107855}
+\def\ua{10}
+\def\myling{{30}} % Informe o número da linguagem selecionada.
+
+% ------------------------------------------ Babel & Geometry
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=0.5cm,bottom=1.5cm,left=1.5cm,right=1.5cm,nohead,nofoot]{geometry}
+%
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{tcolorbox}
+
+\begin{document}
+% ------------------------------------------------- Cabeçalho
+ \begin{tcolorbox}[rounded corners, colback=blue!3, colframe=blue!40!black]
+  \footnotesize\textbf{Universidade Federal de Goiás -- UFG}\hfill \textsc{Linguagens Formais e Autômatos -- 2022/2}\\
+  \footnotesize\textbf{Instituto de Informática -- INF\hfill Prof. Humberto J. Longo} -- \scriptsize\texttt{longo@inf.ufg.br}
+ \end{tcolorbox}\bigskip
+%
+% ------------------------------------------------- Atividade
+\begin{tcolorbox}[rounded corners, colback=blue!2, colframe=blue!40!black, title=\textbf{Atividade AA-\ua}]
+  Nesta tarefa deve-se demonstrar formalmente (com o auxílio do \emph{Pumping Lemma} para linguagens regulares) que a linguagem selecionada não é regular. (Cada aluno(a) deve consultar na descrição da atividade AA--\ua, na disciplina INF0333A da plataforma Turing, qual é a linguagem associada ao seu número de matrícula. A descrição da linguagem está disponível no arquivo ``Lista de linguagens livres de contexto'' da Seção ``Coletânea de exercícios''.)
+\end{tcolorbox}\bigskip
+%
+% -------------------- Descreva aqui a linguagem selecionada.
+%=========================================================================
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={\discente\ (\matricula)}]
+ \begin{itemize}[leftmargin=*]
+  \item $\mathcal{L}_\myling = \{w\in\{0,1\}^*\mid w = 0^m1^n01^{m+1},\ m,n \in \mathbb{N} \}$.
+ \end{itemize}
+\end{tcolorbox}\bigskip
+
+%
+% -------------------- Escreva aqui a resolução do exercício.
+%=========================================================================
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black]
+Suponha que $\mathcal{L}_{\myling}$ seja regular. Neste caso, $\mathcal{L}_{\myling}$ é reconhecida por um autômato finito determinístico com $k$ estados. O \emph{Pumping Lemma} para linguagens regulares garante que qualquer cadeia $w\in \mathcal{L}_{\myling}$, tal que $|w|\geqslant k$, pode ser subdividida em subcadeias $x$, $y$ e $z$ satisfazendo $w=xyz$, $|xy|\leqslant k$, $|y|>0$ ($y\neq\varepsilon$) e $xy^iz\in \mathcal{L}_{\myling}$, para $i\geqslant 0$.\\
+
+Assim, considere a cadeia $w=xyz=0^k1^k01^{k+1}\in \mathcal{L}_{\myling}$. Segundo o \emph{Pumping Lemma} para linguagens regulares $|xy|\leqslant k$, $z=0^{k-|xy|}1^k01^{k+1}$ e $w'= xy^2z\in \mathcal{L}_{\myling}$. Dessa forma:
+\begin{align*}
+ w' = xy^2z &= (xy)(y)(z)\\
+            &= (0^{|xy|})(0^{|y|})(0^{k-|xy|}1^k01^{k+1})\\
+            &= 0^{k+|y|}1^k01^{k+1}.
+\end{align*}
+
+Contudo, a cadeia $w'$ não segue o padrão especificado pela restrição associada à linguagem $\mathcal{L}_{\myling}$, pois como $|y| > 0$, então $k+|y| = m \geqslant m+1$. Ou seja, $w'\notin\mathcal{L}_{\myling}$. Portanto, dada a contradição ao \emph{Pumping Lemma}, é falsa a suposição de que $\mathcal{L}_{\myling}$ é regular.
+\end{tcolorbox}
+%=========================================================================
+%
+\end{document}
+%

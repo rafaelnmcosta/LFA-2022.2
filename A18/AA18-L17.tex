@@ -1,0 +1,79 @@
+\documentclass[12pt]{article}
+
+% ----------------------------------------- Dados do discente
+% Insira os seus dados e do exercício escolhido:
+\def\discente{Rafael Nunes Moreira Costa}
+\def\matricula{202107855}
+\def\ua{18}
+\def\myling{{17}} % Informe o número da linguagem selecionada.
+
+% ------------------------------------------ Babel & Geometry
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=1.0cm,bottom=2.0cm,left=1.5cm,right=1.5cm]{geometry}
+%
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage[breakable]{tcolorbox}
+%
+% -------------------------------------------------- New commands
+%\newcommand{\tvs}{{\large\bf \textvisiblespace}}
+\newcommand\vs[1][.8em]{% Visible space!
+ \makebox[#1]{%
+  \kern.07em
+  \vrule height.5ex
+  \hrulefill
+  \vrule height.5ex
+  \kern.07em
+ }
+}
+\newcommand{\ve}{\ensuremath{\varepsilon}}
+
+\begin{document}
+% ------------------------------------------------- Cabeçalho
+ \begin{tcolorbox}[rounded corners, colback=blue!3, colframe=blue!40!black]
+  \footnotesize\textbf{Universidade Federal de Goiás -- UFG}\hfill \textsc{Linguagens Formais e Autômatos -- 2022/2}\\
+  \footnotesize\textbf{Instituto de Informática -- INF\hfill Prof. Humberto J. Longo} -- \scriptsize\texttt{longo@inf.ufg.br}
+ \end{tcolorbox}\bigskip
+%
+% ------------------------------------------------- Atividade
+\begin{tcolorbox}[rounded corners, colback=blue!2, colframe=blue!40!black, title=\textbf{Atividade AA-\ua}]
+ Nesta tarefa deve-se selecionar uma das linguagens listadas na descrição da AA-\ua na disciplina INF0333A da plataforma Turing e demonstrar formalmente (com o auxílio do \emph{Pumping Lemma} para linguagens livres de contexto) que a linguagem escolhida não é livre de contexto. A descrição da linguagem está disponível no arquivo ``Lista de linguagens que não são livres de contexto'' (vide Seção ``Coletânea de exercícios'', na disciplina INF0333A da plataforma Turing).
+\end{tcolorbox}\bigskip
+
+%
+% ------------------------------------ Resolução do exercício
+%=========================================================================
+\begin{tcolorbox}[rounded corners, colback=yellow!5, colframe=red!40!black, title={\discente\ (\matricula)}]
+ $\mathcal{L}_{\myling} = \{w\in\{0,1\}^*\mid w = 0^l1^m0^n,\ l, m, n \in\mathbb{Z}$ $, l = m*n +1\}$.
+\end{tcolorbox}
+%=========================================================================
+\begin{tcolorbox}[rounded corners, breakable, colback=yellow!5, colframe=red!40!black, title={A linguagem $\mathcal{L}_{\myling}$ não é livre de contexto.}]
+Suponha que $\mathcal{L}_{\myling}$ seja livre de contexto. O \emph{Pumping Lemma} para linguagens livres de contexto garante a existência de $p\in\mathbb{Z}^+$ (\emph{pumping length}), tal que qualquer cadeia $w\in \mathcal{L}_{\myling}$, com $|w|\geqslant p$, pode ser subdividida em subcadeias $u$, $v$, $x$, $y$ e $z$ ($w=uvxyz$) satisfazendo $|vxy|\leqslant p$, $|vy|>0$ ($v\neq\varepsilon$ e/ou $y\neq\varepsilon$) e $uv^ixy^iz\in \mathcal{L}_{\myling}$, para $i\geqslant 0$.\\[10pt]
+% - - - - - - - - - - - - - - - - 
+Contudo, assumindo a possibilidade de que $m=n$, e considerando a cadeia $w=uvxyz=0^{p^2+1}1^p0^p\in \mathcal{L}_{\myling}$. 
+\\
+\\
+Se $v$ ou $y$ possuírem mais de um símbolo distinto em $\sum$, o \emph{Pumping Lemma} não será capaz de manter a regra $0^l1^m0^n$ por não seguir a sequência ncessária de $0$ e $1$, independente da posição variável de $v$ ou $y$, gerando cadeias com "101010..." ou "010101..." a cada bombeamento, por exemplo.
+\\
+\\
+Considerando que $v$ e $y$ possuem apenas um único símbolo:
+\\
+\\
+Caso $v$ esteja na cadeia inicial de 0 e seja elevado a qualquer i genérico, independente de $y$ estar na cadeia final de 0 ou na cadeia de 1, o bombeamento ferirá a regra estabelecida para a cadeia $0^{p^2+1}1^p0^p$, por permitir que a cada bombeamento a quantidade de $1^p$ ou $0^p$ cresça na mesma frequência que $0^{p^2+1}$, o que é claramente incorreto.
+\\
+\\
+Caso $v$ esteja na cadeia de 1 e seja elevado a qualquer i genérico, independente de $y$ estar na cadeia final de 0 ou na cadeia de 1, o bombeamento ferirá a regra estabelecida para a cadeia $0^{p^2+1}1^p0^p$, por permitir que a cada bombeamento a quantidade de $1^p$ cresça enquanto $0{p^2+1}$ permanece constante, algo claramente incorreto também.
+\\
+\\
+Da mesma forma, tanto quando $v \neq \ve$ e $y = \ve$ quanto $v = \ve$ e $y \neq \ve$, a regra estabelecida não será seguida por permitir que $0^{p^2+1}$ cresça enquanto $1^p$ ou $0^p$ permanecerão constantes, ou vice versa, o que é impossível.
+\\
+\\
+% - - - - - - - - - - - - - - - - 
+ Logo, dadas as contradições ao \emph{Pumping Lemma}, é falsa a suposição de que $\mathcal{L}_{\myling}$ é livre de contexto.
+\end{tcolorbox}
+%=========================================================================
+\end{document}
+%
